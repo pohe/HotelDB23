@@ -11,11 +11,11 @@ namespace HotelDB23.Services
 {
     class HotelServiceAsync : Connection, IHotelServiceAsync
     {
-        private String queryString = "select * from po22_Hotel";
+        private String queryString = "select * from Hotel";
         private String queryStringFromID = "";
-        private String insertSql = "insert into po22_Hotel Values (@ID, @Navn, @Adresse)";
+        private String insertSql = "insert into Hotel Values (@ID, @Navn, @Adresse)";
         private String deleteSql = "";
-        private String updateSql = "update po22_Hotel " +
+        private String updateSql = "update Hotel " +
                                    "set Hotel_No= @HotelID, Name=@Navn, Address=@Adresse " +
                                    "where Hotel_No = @ID";
 

@@ -3,7 +3,6 @@
 using HotelDB23;
 
 bool showMenu = true;
-
 while (showMenu)
 {
     showMenu = MainMenu.Menu();

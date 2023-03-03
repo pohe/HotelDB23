@@ -11,9 +11,9 @@ namespace HotelDB23.Services
 {
     public class HotelService : Connection, IHotelService
     {
-        private string queryString = "select * from po22_Hotel";
-        //private String queryStringFromID = "select * from Hotel where Hotel_No = @ID";
-        private string insertSql = "insert into po22_Hotel Values(@ID, @Navn, @Adresse)";
+        private string queryString = "select * from Hotel";
+        private String queryStringFromID = "select * from Hotel where Hotel_No = @ID";
+        private string insertSql = "insert into Hotel Values(@ID, @Navn, @Adresse)";
         //private string deleteSql;
         //private string updateSql;
         // lav selv sql strengene færdige og lav gerne yderligere sqlstrings
@@ -56,7 +56,38 @@ namespace HotelDB23.Services
 
         public Hotel GetHotelFromId(int hotelNr)
         {
-            throw new NotImplementedException();
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlCommand commmand = new SqlCommand(queryStringFromID, connection);
+                    commmand.Parameters.AddWithValue("@ID", hotelNr);
+                    commmand.Connection.Open();
+                    
+                    SqlDataReader reader = commmand.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        int hotelNo = reader.GetInt32(0);
+                        string hotelNavn = reader.GetString(1);
+                        string hotelAdr = reader.GetString(2);
+                        Hotel hotel = new Hotel(hotelNo, hotelNavn, hotelAdr);
+                        return hotel;
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    Console.WriteLine("Database error " + sqlEx.Message);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Generel fejl " + ex.Message);
+                }
+                finally
+                {
+                    //her kommer man altid
+                }
+            }
+            return null;
         }
 
         public bool CreateHotel(Hotel hotel)

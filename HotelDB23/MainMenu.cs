@@ -16,7 +16,6 @@ namespace HotelDB23
             Console.Clear();
             Console.WriteLine("\tVælg et menupunkt\n");
             Console.WriteLine("\t1)\t List hoteller");
-            Console.WriteLine("\t1a)\t List hoteller async");
             Console.WriteLine("\t2)\t Opret nyt Hotel");
             Console.WriteLine("\t3)\t Fjern Hotel");
             Console.WriteLine("\t4)\t Søg efter hotel udfra hotelnr");
@@ -36,18 +35,35 @@ namespace HotelDB23
                 case "1":
                     ShowHotels();
                     return true;
-                //case "1a":
-                //    ShowHotelsAsync();
-                //    DoSomething();
-                //    return true;
                 case "2":
                     CreateHotel();
+                    return true;
+                case "4":
+                    GetHotel();
                     return true;
                 case "Q":
                 case "q": return false;
                 default: return true;
             }
 
+        }
+
+        private static void GetHotel()
+        {
+            Console.Clear();
+            Console.WriteLine("Indtast hotel nummer som du ønsker at søge efter :");
+            int hotelNo = int.Parse(Console.ReadLine());
+            HotelService hs = new HotelService();
+            Hotel foundHotel = hs.GetHotelFromId(hotelNo);
+            if (foundHotel != null)
+            {
+                Console.WriteLine($"Hotel fundet {foundHotel.ToString()} ");
+            }
+            else
+            {
+                Console.WriteLine("Hotellet findes ikke");
+            }
+            Console.ReadKey();
         }
 
         private static void ShowHotels()
